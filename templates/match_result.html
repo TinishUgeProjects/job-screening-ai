@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Match Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            max-width: 800px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .section {
+            margin-bottom: 2rem;
+        }
+        .emoji-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: bold;
+        }
+        .score {
+            font-size: 2rem;
+            text-align: center;
+            color: #2196F3;
+            margin-bottom: 1rem;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background-color: #fafafa;
+            padding: 1rem;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+        form {
+            margin-top: 2rem;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            margin: 0.5rem 0 1rem 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .form-heading {
+            margin-top: 3rem;
+            font-size: 1.5rem;
+            color: #333;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 AI Candidate Evaluation</h1>
+        <div class="score">
+            📊 Match Score: {{ result.match_score }}/100
+        </div>
+
+        <div class="section">
+            <div class="emoji-title">🔧 Skills</div>
+            <pre>{{ result.skills }}</pre>
+        </div>
+
+        <div class="section">
+            <div class="emoji-title">💼 Experience</div>
+            <pre>{{ result.experience }}</pre>
+        </div>
+
+        <div class="section">
+            <div class="emoji-title">🎓 Education</div>
+            <pre>{{ result.education }}</pre>
+        </div>
+
+        <div class="section">
+            <div class="emoji-title">📌 Summary</div>
+            <pre>{{ result.summary }}</pre>
+        </div>
+
+        <div class="section">
+            <div class="emoji-title">🎯 Objective</div>
+            <pre>{{ result.objective }}</pre>
+        </div>
+
+        {% if result.match_score|int >= 75 %}
+        <hr>
+        <div class="form-heading">📝 You’re shortlisted! Please share your details below</div>
+        <form action="{{ url_for('submit_details') }}" method="POST">
+            <input type="hidden" name="match_score" value="{{ result.match_score }}">
+
+            <label for="phone">📞 Phone Number:</label>
+            <input type="text" id="phone" name="phone" required>
+
+            <label for="email">📧 Email Address:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="reason">❓ Why do you want this role / join the company?</label>
+            <textarea id="reason" name="reason" rows="4" required></textarea>
+
+            <button type="submit">Submit Details</button>
+        </form>
+        {% endif %}
+    </div>
+</body>
+</html>
